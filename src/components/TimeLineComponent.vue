@@ -9,23 +9,23 @@
           {{ period }}
         </a>
     </p>
-    <a data-test="post" class="panel-block" v-for="post in posts" :key="post.id">
-      <div>
-        <a>{{post.title}}</a>
-        <div>{{post.created.format('Do MMM')}}</div>
-      </div>
-    </a>
+    <TimelinePost :post="post" v-for="post in posts" :key="post.id" />
   </nav>
 </template>
 
 <script>
 import { defineComponent, ref, computed } from 'vue';
 import { todayPost, thisWeekPost, thisMonthPost } from '@/mocks';
+import TimelinePost from '@/components/TimelinePost.vue';
 import moment from 'moment';
 // ref: reactive reference, reflect the latest information
 
 export default defineComponent({
   name: 'TimeLineComponent',
+  components: {
+    TimelinePost,
+  },
+
   setup() {
     const periods = ['today', 'this week', 'this month'];
     const selectedPeriod = ref('today');
