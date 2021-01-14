@@ -26,7 +26,7 @@ export default defineComponent({
     TimelinePost,
   },
 
-  setup() {
+  async setup() {
     const periods = ['today', 'this week', 'this month'];
     const selectedPeriod = ref('today');
     const setPeriod = (period) => {
