@@ -17,13 +17,16 @@
            ref="contentEditable"
            @input="handleEdit"/>
     </div>
-    <div class="column is-one-half">
-      {{ markdown }}
+    <div class="column is-one-half" >
+      <div v-html="html"></div>
     </div>
   </div>
 </template>
 <script>
-import { defineComponent, ref, onMounted } from 'vue';
+import {
+  defineComponent, ref, onMounted, watch,
+} from 'vue';
+import { parse } from 'marked';
 
 export default defineComponent({
   name: 'PostWriter',
@@ -36,7 +39,11 @@ export default defineComponent({
     const title = ref(props.post.title);
     const contentEditable = ref(null);
     const markdown = ref(props.post.markdown);
-    console.log(contentEditable);
+    const html = ref('');
+
+    watch(() => markdown.value, (value) => {
+      html.value = parse(value);
+    }, { immediate: true });
     onMounted(() => {
       contentEditable.value.innerHTML = markdown.value;
     });
@@ -49,6 +56,7 @@ export default defineComponent({
       contentEditable,
       markdown,
       handleEdit,
+      html,
     };
   },
 });
