@@ -9,12 +9,21 @@
           {{ period }}
         </a>
     </p>
+    <a data-test="post" class="panel-block" v-for="post in posts" :key="post.id">
+      <div>
+        <a>{{post.title}}</a>
+        <div>{{post.created.format('Do MMM')}}</div>
+      </div>
+    </a>
   </nav>
 </template>
 
 <script>
-import { defineComponent, ref } from 'vue';
+import { defineComponent, ref, computed } from 'vue';
+import { todayPost, thisWeekPost, thisMonthPost } from '@/mocks';
+import moment from 'moment';
 // ref: reactive reference, reflect the latest information
+
 export default defineComponent({
   name: 'TimeLineComponent',
   setup() {
@@ -23,10 +32,23 @@ export default defineComponent({
     const setPeriod = (period) => {
       selectedPeriod.value = period;
     };
+    const posts = computed(() => [todayPost, thisWeekPost, thisMonthPost].filter((post) => {
+      if (selectedPeriod.value === 'today' && post.created.isAfter(moment().subtract(1, 'day'))) {
+        return true;
+      }
+      if (selectedPeriod.value === 'this week' && post.created.isAfter(moment().subtract(7, 'day'))) {
+        return true;
+      }
+      if (selectedPeriod.value === 'this month' && post.created.isAfter(moment().subtract(1, 'month'))) {
+        return true;
+      }
+      return false;
+    }));
     return {
       periods,
       selectedPeriod,
       setPeriod,
+      posts,
     };
   },
 });
