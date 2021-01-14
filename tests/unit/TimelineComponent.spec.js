@@ -13,6 +13,7 @@ jest.mock('axios',
       ],
     }),
   }));
+
 describe('Home', () => {
   it('renders a loader', () => {
     const wrapper = mount(Home);
