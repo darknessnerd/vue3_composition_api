@@ -1,6 +1,5 @@
 import { reactive, readonly } from 'vue';
 import axios from 'axios';
-import { todayPost, thisWeekPost, thisMonthPost } from '@/mocks';
 
 class Store {
   constructor(initialState) {
@@ -12,7 +11,7 @@ class Store {
   }
 
   async fetchPosts() {
-    const response = await axios.get('/post');
+    const response = await axios.get('/posts');
     const ids = [];
     const all = {};
     response.data.forEach((post) => {
@@ -30,12 +29,8 @@ const store = new Store(
   {
     posts: {
       ids: [
-        todayPost.id.toString(), thisWeekPost.id.toString(), thisMonthPost.id.toString(),
       ],
       all: {
-        [todayPost.id]: todayPost,
-        [thisWeekPost.id]: thisWeekPost,
-        [thisMonthPost.id]: thisMonthPost,
       },
       loaded: false,
     },

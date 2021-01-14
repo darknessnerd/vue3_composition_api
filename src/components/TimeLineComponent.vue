@@ -34,6 +34,9 @@ export default defineComponent({
     };
 
     const store = useStore();
+    if (!store.getState().posts.loaded) {
+      await store.fetchPosts();
+    }
     const allPosts = store.getState().posts.ids.reduce((acc, id) => {
       const post = store.getState().posts.all[id];
       return acc.concat(post);
