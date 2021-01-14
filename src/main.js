@@ -2,6 +2,8 @@ import { createApp } from 'vue';
 import axios from 'axios';
 import * as mockData from './mocks';
 import App from './App.vue';
+import { router } from './router';
+
 import 'bulma/bulma.sass';
 
 const delay = (ms) => new Promise((res) => { setTimeout(res, ms); });
@@ -21,4 +23,6 @@ axios.get = async (url) => {
   return Promise.reject();
 };
 
-createApp(App).mount('#app');
+const app = createApp(App);
+app.use(router);
+app.mount('#app');
