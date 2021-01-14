@@ -1,5 +1,6 @@
 import { reactive, readonly } from 'vue';
 import axios from 'axios';
+import { todayPost, thisWeekPost, thisMonthPost } from '@/mocks';
 
 class Store {
   constructor(initialState) {
@@ -18,12 +19,28 @@ class Store {
       ids.push(post.id);
       all[post.id] = post;
     });
-    this.state.post = {
+    this.state.posts = {
       ids,
       all,
       loaded: true,
     };
   }
 }
+const store = new Store(
+  {
+    posts: {
+      ids: [
+        todayPost.id.toString(), thisWeekPost.id.toString(), thisMonthPost.id.toString(),
+      ],
+      all: {
+        [todayPost.id]: todayPost,
+        [thisWeekPost.id]: thisWeekPost,
+        [thisMonthPost.id]: thisMonthPost,
+      },
+      loaded: false,
+    },
+  },
+);
 
-export default Store;
+// eslint-disable-next-line import/prefer-default-export
+export const useStore = () => store;

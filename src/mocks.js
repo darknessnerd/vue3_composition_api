@@ -1,7 +1,6 @@
 import moment from 'moment';
 
 const basePost = {
-  id: 1,
   title: 'Base post',
   html: '<p>content</p>',
   authorId: 1,
@@ -11,14 +10,17 @@ const basePost = {
 export const todayPost = {
   ...basePost,
   title: 'Today',
+  id: 1,
 };
 export const thisWeekPost = {
   ...basePost,
   title: 'This week',
   created: moment().subtract(2, 'days'),
+  id: 2,
 };
 export const thisMonthPost = {
   ...basePost,
   title: 'This Month',
   created: moment().subtract(2, 'weeks'),
+  id: 3,
 };

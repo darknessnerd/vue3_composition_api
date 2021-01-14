@@ -15,9 +15,9 @@
 
 <script>
 import { defineComponent, ref, computed } from 'vue';
-import { todayPost, thisWeekPost, thisMonthPost } from '@/mocks';
 import TimelinePost from '@/components/TimelinePost.vue';
 import moment from 'moment';
+import { useStore } from '@/store';
 // ref: reactive reference, reflect the latest information
 
 export default defineComponent({
@@ -32,7 +32,14 @@ export default defineComponent({
     const setPeriod = (period) => {
       selectedPeriod.value = period;
     };
-    const posts = computed(() => [todayPost, thisWeekPost, thisMonthPost].filter((post) => {
+
+    const store = useStore();
+    const allPosts = store.getState().posts.ids.reduce((acc, id) => {
+      const post = store.getState().posts.all[id];
+      return acc.concat(post);
+    }, []);
+
+    const posts = computed(() => allPosts.filter((post) => {
       if (selectedPeriod.value === 'today' && post.created.isAfter(moment().subtract(1, 'day'))) {
         return true;
       }
