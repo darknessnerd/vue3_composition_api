@@ -1,10 +1,15 @@
 <template>
+  <div>
   <div class="columns">
     <div class="column">
       <div class="field">
         <div class="label">Post Title</div>
         <div class="control">
-          <input v-model="title" type="text" class="input" />
+          <input
+            data-test="post-title"
+            v-model="title"
+            type="text"
+            class="input" />
           {{ title }}
         </div>
       </div>
@@ -12,7 +17,9 @@
   </div>
   <div class="columns">
     <div class="column is-one-half">
-      <div contenteditable
+      <div
+           data-test="markdown"
+           contenteditable
            id="markdown"
            ref="contentEditable"
            @input="handleEdit"/>
@@ -23,10 +30,13 @@
   </div>
   <div class="columns">
     <div class="column is-one-half">
-      <button @click="submit" class="button is-primary is-pulled-right">
+      <button data-test="submit-post"
+              @click="submit"
+              class="button is-primary is-pulled-right">
         save
       </button>
     </div>
+  </div>
   </div>
 </template>
 <script>

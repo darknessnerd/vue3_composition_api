@@ -1,6 +1,6 @@
 import moment from 'moment';
 
-const basePost = {
+export const basePost = {
   title: 'Base post',
   html: '<p>content</p>',
   authorId: 1,
