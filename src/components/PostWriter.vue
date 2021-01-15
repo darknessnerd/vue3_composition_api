@@ -26,7 +26,9 @@
 import {
   defineComponent, ref, onMounted, watch,
 } from 'vue';
-import { parse } from 'marked';
+import marked from 'marked';
+import { highlightAuto } from 'highlight.js';
+import debounce from 'lodash/debounce';
 
 export default defineComponent({
   name: 'PostWriter',
@@ -40,14 +42,17 @@ export default defineComponent({
     const contentEditable = ref(null);
     const markdown = ref(props.post.markdown);
     const html = ref('');
-
-    watch(() => markdown.value, (value) => {
-      html.value = parse(value);
-    }, { immediate: true });
+    const options = {
+      highlight: (code) => highlightAuto(code).value,
+    };
+    const update = (value) => { html.value = marked.parse(value, options); };
+    watch(
+      () => markdown.value,
+      debounce(update, 500), { immediate: true },
+    );
     onMounted(() => {
       contentEditable.value.innerHTML = markdown.value;
     });
-
     const handleEdit = () => {
       markdown.value = contentEditable.value.innerText;
     };

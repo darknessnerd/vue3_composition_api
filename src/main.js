@@ -5,6 +5,7 @@ import App from './App.vue';
 import { router } from './router';
 
 import 'bulma/bulma.sass';
+import 'highlight.js/styles/solarized-dark.css';
 
 const delay = (ms) => new Promise((res) => { setTimeout(res, ms); });
 
