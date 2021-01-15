@@ -12,17 +12,19 @@ class Store {
 
   async fetchPosts() {
     const response = await axios.get('/posts');
-    const ids = [];
-    const all = {};
     response.data.forEach((post) => {
-      ids.push(post.id);
-      all[post.id] = post;
+      if (!this.state.posts.ids.includes(post.id.toString())) {
+        this.state.posts.ids.push(post.id.toString());
+      }
+      this.state.posts.all[post.id] = post;
     });
-    this.state.posts = {
-      ids,
-      all,
-      loaded: true,
-    };
+    this.state.posts.loaded = true;
+  }
+
+  async createPost(post) {
+    const response = await axios.post('/posts', post);
+    this.state.posts.all[response.data.id] = response.data;
+    this.state.posts.ids.push(response.data.id.toString());
   }
 }
 const store = new Store(

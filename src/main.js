@@ -1,5 +1,6 @@
 import { createApp } from 'vue';
 import axios from 'axios';
+import random from 'lodash/random';
 import * as mockData from './mocks';
 import App from './App.vue';
 import { router } from './router';
@@ -20,6 +21,14 @@ axios.get = async (url) => {
         mockData.thisMonthPost,
       ],
     });
+  }
+  return Promise.reject();
+};
+axios.post = async (url, payload) => {
+  if (url === '/posts') {
+    await delay(500);
+    const id = random(100, 1000000);
+    return Promise.resolve({ data: { ...payload, id } });
   }
   return Promise.reject();
 };
