@@ -21,6 +21,13 @@
       <div v-html="html"></div>
     </div>
   </div>
+  <div class="columns">
+    <div class="column is-one-half">
+      <button @click="submit" class="button is-primary is-pulled-right">
+        save
+      </button>
+    </div>
+  </div>
 </template>
 <script>
 import {
@@ -37,7 +44,8 @@ export default defineComponent({
       required: true,
     },
   },
-  setup(props) {
+  emits: ['save'],
+  setup(props, context) {
     const title = ref(props.post.title);
     const contentEditable = ref(null);
     const markdown = ref(props.post.markdown);
@@ -56,12 +64,24 @@ export default defineComponent({
     const handleEdit = () => {
       markdown.value = contentEditable.value.innerText;
     };
+
+    const submit = () => {
+      const post = {
+        ...props.post,
+        title: title.value,
+        markdown: markdown.value,
+        html: html.value,
+      };
+      context.emit('save', post);
+    };
+
     return {
       title,
       contentEditable,
       markdown,
       handleEdit,
       html,
+      submit,
     };
   },
 });

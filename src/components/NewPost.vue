@@ -1,7 +1,6 @@
 <template>
   <div class="is-primary panel">
-    <PostWriter :post="post"/>
-    {{post}}
+    <PostWriter @save="save" :post="post"/>
   </div>
 </template>
 <script>
@@ -35,8 +34,13 @@ export default defineComponent({
       created: moment(),
       authorId: -1,
     };
+
+    const save = (postToSave) => {
+      console.log('save', postToSave);
+    };
     return {
       post,
+      save,
     };
   },
 });
