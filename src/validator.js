@@ -24,10 +24,11 @@ export function validate(value, validators) {
   validators.every((validator) => {
     if (validator.type === 'required' && (!value || !value.length)) {
       result.valid = false;
+      result.message = 'This field is required';
       return false;
     }
     if (validator.type === 'length'
-      && (value.length < validators.options.min || value.length > validators.options.max)) {
+      && (value.length < validator.options.min || value.length > validator.options.max)) {
       result.valid = false;
       result.message = 'This field has invalid length';
       return false;
