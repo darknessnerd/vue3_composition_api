@@ -1,4 +1,6 @@
-import { reactive, readonly } from 'vue';
+import {
+  reactive, readonly, provide, inject,
+} from 'vue';
 import axios from 'axios';
 
 class Store {
@@ -33,7 +35,7 @@ class Store {
     this.state.posts.ids.push(response.data.id.toString());
   }
 }
-const store = new Store(
+const storeInternal = new Store(
   {
     posts: {
       ids: [
@@ -44,6 +46,22 @@ const store = new Store(
     },
   },
 );
-
+export const provideStore = () => {
+  provide('store', storeInternal);
+};
+export const createStore = () => new Store(
+  {
+    posts: {
+      ids: [
+      ],
+      all: {
+      },
+      loaded: false,
+    },
+  },
+);
 // eslint-disable-next-line import/prefer-default-export
-export const useStore = () => store;
+export const useStore = () => {
+  const store = inject('store');
+  return store;
+};

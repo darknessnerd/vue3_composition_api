@@ -2,6 +2,7 @@ import { mount } from '@vue/test-utils';
 import Home from '@/components/Home.vue';
 import flushPromises from 'flush-promises';
 import * as mockData from '@/mocks';
+import { createStore } from '@/store';
 
 jest.mock('axios',
   () => ({
@@ -13,22 +14,28 @@ jest.mock('axios',
       ],
     }),
   }));
-
+const createWrapper = () => mount(Home, {
+  global: {
+    provide: {
+      store: createStore(),
+    },
+  },
+});
 describe('Home', () => {
   it('renders a loader', () => {
-    const wrapper = mount(Home);
+    const wrapper = createWrapper();
     expect(wrapper.find('[data-test="progress"]').exists()).toBeTruthy();
   });
 
   it('renders 3 times periods', async () => {
-    const wrapper = mount(Home);
+    const wrapper = createWrapper();
     await flushPromises();
     expect(wrapper.findAll('[data-test="period"]'))
       .toHaveLength(3);
   });
 
   it('updates the period when clicked', async () => {
-    const wrapper = mount(Home);
+    const wrapper = createWrapper();
     await flushPromises();
     const $today = wrapper.findAll('[data-test="period"]')[0];
     expect($today.classes()).toContain('is-active');
@@ -45,14 +52,14 @@ describe('Home', () => {
   });
 
   it('renders todays post by default', async () => {
-    const wrapper = mount(Home);
+    const wrapper = createWrapper();
     await flushPromises();
     expect(wrapper.findAll('[data-test="post"]'))
       .toHaveLength(1);
   });
 
   it('renders change posts', async () => {
-    const wrapper = mount(Home);
+    const wrapper = createWrapper();
     await flushPromises();
     expect(wrapper.findAll('[data-test="post"]'))
       .toHaveLength(1);
