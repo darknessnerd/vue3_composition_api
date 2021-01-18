@@ -1,20 +1,26 @@
 <template>
-  <form class="form">
+  <form class="form" @submit.prevent="submit">
     <FormInput type="text"
                name="Username"
                v-model="username"
-               :error="usernameStatus.message"></FormInput>
+               :error="usernameStatus.message">
+    </FormInput>
     <FormInput type="password"
                name="password"
                v-model="password"
-               :error="passwordStatus.message"></FormInput>
+               :error="passwordStatus.message">
+    </FormInput>
+    <button class="button is-primary"
+      :disabled="!usernameStatus.valid || !passwordStatus.valid"
+    >Submit</button>
   </form>
 </template>
-
 <script>
-import { required, length, validate } from '@/./validator';
+import { required, length, validate } from '@/validator';
 import { defineComponent, computed, ref } from 'vue';
 import FormInput from '@/components/FormInput.vue';
+import { useStore } from '@/store';
+import { useModal } from '@/useModal';
 
 export default defineComponent({
   name: 'Signup',
@@ -30,11 +36,26 @@ export default defineComponent({
     const passwordStatus = computed(
       () => validate(password.value, [required(), length(5, 10)]),
     );
+    const store = useStore();
+    const modal = useModal();
+    const submit = async () => {
+      if (!usernameStatus.value.valid || !passwordStatus.value.valid) {
+        return;
+      }
+      const user = {
+        id: -1,
+        username: username.value,
+        password: password.value,
+      };
+      await store.createUser(user);
+      modal.hideModal();
+    };
     return {
       username,
       usernameStatus,
       password,
       passwordStatus,
+      submit,
     };
   },
 });

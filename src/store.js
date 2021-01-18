@@ -21,6 +21,12 @@ class Store {
     this.state.posts.loaded = true;
   }
 
+  // eslint-disable-next-line class-methods-use-this
+  createUser(user) {
+    console.log(user);
+    // const response = await axios.post('/users', user);
+  }
+
   async createPost(post) {
     const response = await axios.post('/posts', post);
     this.state.posts.all[response.data.id] = response.data;
