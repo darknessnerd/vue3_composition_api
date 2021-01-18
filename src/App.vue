@@ -9,6 +9,8 @@
     ></button>
   </div>
   <section class="section">
+    <FormInput type="text" name="Username" v-model="username" error="aaaa"></FormInput>
+    {{ username }}
     <div class="container">
       <Navbar />
       <router-view />
@@ -17,17 +19,20 @@
 </template>
 
 <script>
-import { defineComponent, computed } from 'vue';
+import { defineComponent, computed, ref } from 'vue';
 import Navbar from '@/components/Navbar.vue';
+import FormInput from '@/components/FormInput.vue';
 import { useModal } from '@/./useModal';
 
 export default defineComponent({
   name: 'App',
   components: {
     Navbar,
+    FormInput,
   },
   setup() {
     const modal = useModal();
+    const username = ref('username');
     const style = computed(() => ({
       display: modal.visible.value ? 'block' : 'none',
     }));
@@ -35,6 +40,7 @@ export default defineComponent({
     return {
       style,
       modal,
+      username,
     };
   },
 });
