@@ -14,6 +14,7 @@ export default defineComponent({
   name: 'NewPost',
   components: { PostWriter },
   setup() {
+    const store = useStore();
     const post = {
       id: -1,
       title: 'New post',
@@ -34,10 +35,9 @@ export default defineComponent({
         + '\n```',
       html: '',
       created: moment(),
-      authorId: -1,
+      authorId: store.getState().authors.currentUserId?.toString(),
     };
 
-    const store = useStore();
     const router = useRouter();
     const save = async (postToSave) => {
       await store.createPost(postToSave);

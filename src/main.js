@@ -39,6 +39,14 @@ axios.post = async (url, payload) => {
   return Promise.reject();
 };
 
+axios.put = async (url, payload) => {
+  if (url === '/posts') {
+    await delay(500);
+    return Promise.resolve({ data: { payload } });
+  }
+  return Promise.reject();
+};
+
 const app = createApp(App);
 app.use(router);
 app.mount('#app');

@@ -33,6 +33,11 @@ class Store {
     console.log(this.state);
   }
 
+  async updatePost(post) {
+    const response = await axios.put('/posts', post);
+    this.state.posts.all[response.data.id] = response.data;
+  }
+
   async createPost(post) {
     const response = await axios.post('/posts', post);
     this.state.posts.all[response.data.id] = response.data;
@@ -61,23 +66,26 @@ export const storeInternal = new Store(
 export const provideStore = () => {
   provide('store', storeInternal);
 };
-export const createStore = () => new Store(
+export const createStore = (initialState) => new Store(
   {
-    authors: {
-      ids: [
-      ],
-      all: {
+    ...{
+      authors: {
+        ids: [
+        ],
+        all: {
+        },
+        loaded: false,
+        currentUserId: null,
       },
-      loaded: false,
-      currentUserId: null,
-    },
-    posts: {
-      ids: [
-      ],
-      all: {
+      posts: {
+        ids: [
+        ],
+        all: {
+        },
+        loaded: false,
       },
-      loaded: false,
     },
+    ...initialState,
   },
 );
 // eslint-disable-next-line import/prefer-default-export
