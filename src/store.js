@@ -24,9 +24,13 @@ class Store {
   }
 
   // eslint-disable-next-line class-methods-use-this
-  createUser(user) {
+  async createUser(user) {
     console.log(user);
-    // const response = await axios.post('/users', user);
+    const response = await axios.post('/users', user);
+    this.state.authors.all[response.data.id] = response.data;
+    this.state.authors.ids.push(response.data.id.toString());
+    this.state.authors.currentUserId = response.data.id.toString();
+    console.log(this.state);
   }
 
   async createPost(post) {
@@ -37,6 +41,14 @@ class Store {
 }
 const storeInternal = new Store(
   {
+    authors: {
+      ids: [
+      ],
+      all: {
+      },
+      loaded: false,
+      currentUserId: null,
+    },
     posts: {
       ids: [
       ],
@@ -51,6 +63,14 @@ export const provideStore = () => {
 };
 export const createStore = () => new Store(
   {
+    authors: {
+      ids: [
+      ],
+      all: {
+      },
+      loaded: false,
+      currentUserId: null,
+    },
     posts: {
       ids: [
       ],

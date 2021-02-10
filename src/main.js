@@ -30,6 +30,12 @@ axios.post = async (url, payload) => {
     const id = random(100, 1000000);
     return Promise.resolve({ data: { ...payload, id } });
   }
+  if (url === '/users') {
+    await delay(500);
+    const id = random(100, 1000000);
+    const { id: oldId, password, ...rest } = payload;
+    return Promise.resolve({ data: { ...rest, id } });
+  }
   return Promise.reject();
 };
 
