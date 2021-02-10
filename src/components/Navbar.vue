@@ -16,7 +16,7 @@
   </nav>
 </template>
 <script>
-import { defineComponent, computed } from 'vue';
+import { defineComponent, computed, markRaw } from 'vue';
 import { useModal } from '@/useModal';
 import Signup from '@/components/Signup.vue';
 import { useStore } from '@/store';
@@ -35,7 +35,7 @@ export default defineComponent({
     };
     const signup = () => {
       modal.showModal();
-      modal.component.value = Signup;
+      modal.component.value = markRaw(Signup);
     };
     return {
       component: modal.component,
