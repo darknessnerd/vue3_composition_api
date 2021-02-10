@@ -1,7 +1,5 @@
 <template>
-  <router-link :to="to" class="button is-rounded is-link">
-    <i class="fas fa-edit"></i>
-  </router-link>
+  Editor
   <div>Post title is: {{post.title}}</div>
 </template>
 <script>

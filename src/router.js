@@ -2,8 +2,8 @@ import { createRouter, createWebHistory } from 'vue-router';
 import Home from '@/components/Home.vue';
 import NewPost from '@/components/NewPost.vue';
 import ShowPostComponent from '@/components/ShowPostComponent.vue';
-
 import { storeInternal } from '@/store';
+import EditPostView from '@/components/EditPostView.vue';
 
 // eslint-disable-next-line import/prefer-default-export
 export const router = createRouter({
@@ -23,6 +23,14 @@ export const router = createRouter({
       name: 'NewPost',
       path: '/posts/new',
       component: NewPost,
+      meta: {
+        requireAuth: true,
+      },
+    },
+    {
+      name: 'EditPost',
+      path: '/posts/:id/edit',
+      component: EditPostView,
       meta: {
         requireAuth: true,
       },
