@@ -1,6 +1,8 @@
 import { createRouter, createWebHistory } from 'vue-router';
 import Home from '@/components/Home.vue';
 import NewPost from '@/components/NewPost.vue';
+import ShowPostComponent from '@/components/ShowPostComponent.vue';
+
 import { storeInternal } from '@/store';
 
 // eslint-disable-next-line import/prefer-default-export
@@ -11,6 +13,11 @@ export const router = createRouter({
       name: 'home',
       path: '/',
       component: Home,
+    },
+    {
+      name: 'showPost',
+      path: '/posts/:id',
+      component: ShowPostComponent,
     },
     {
       name: 'NewPost',

@@ -1,11 +1,11 @@
 <template>
-    <a data-test="post" class="panel-block" >
+    <router-link :to="to" data-test="post" class="panel-block" >
       <div>
         <a>{{post.title}}</a>
         <div>{{post.id}}</div>
         <div>{{post.created.format('Do MMM')}}</div>
       </div>
-    </a>
+    </router-link>
 </template>
 <script>
 import { defineComponent } from 'vue';
@@ -16,6 +16,11 @@ export default defineComponent({
     post: {
       required: true,
     },
+  },
+  setup(props) {
+    return {
+      to: `/posts/${props.post.id}`,
+    };
   },
 });
 </script>
