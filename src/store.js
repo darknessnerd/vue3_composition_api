@@ -39,7 +39,7 @@ class Store {
     this.state.posts.ids.push(response.data.id.toString());
   }
 }
-const storeInternal = new Store(
+export const storeInternal = new Store(
   {
     authors: {
       ids: [

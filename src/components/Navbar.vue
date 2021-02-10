@@ -32,6 +32,7 @@ export default defineComponent({
 
     const signin = () => {
       modal.showModal();
+      modal.component.value = markRaw(Signup);
     };
     const signup = () => {
       modal.showModal();
